@@ -9,6 +9,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     html{scroll-behavior:smooth}
+    /* Offset så anker-links ikke gemmes under sticky header */
+:target{scroll-margin-top:110px;}
+@media (max-width:768px){
+  :target{scroll-margin-top:90px;}
+}
     /* Ticker */
     #ticker{animation: slideLeft 30s linear infinite; white-space:nowrap; padding:.35rem 0}
     #ticker:hover{animation-play-state:paused}
