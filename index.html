@@ -36,7 +36,7 @@
           <div class="text-xs text-slate-500 -mt-0.5">Fællesskab & Præcision</div>
         </div>
       </a>
-      <nav class="hidden md:flex items-center gap-7 text-base font-medium">
+      <nav class="hidden md:flex items-center justify-between gap-7 text-base font-medium w-full">
         <a href="#news" class="hover:text-cyan-700">Nyheder</a>
         <a href="#training" class="hover:text-cyan-700">Træningsplan</a>
         <a href="#events" class="hover:text-cyan-700">Aktiviteter</a>
@@ -47,7 +47,26 @@
         <a href="#sponsors" class="hover:text-cyan-700">Sponsorer</a>
         <a href="#contact" class="hover:text-cyan-700">Kontakt</a>
         <a href="#join" class="ml-2 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white shadow hover:opacity-90">Bliv medlem</a>
+        <span class="hidden md:inline-block ml-6 pl-6 border-l border-slate-200"></span>
+<a href="admin.html"
+   class="ml-auto inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm font-semibold shadow-sm transition">
+  <!-- lock icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M7 11V8a5 5 0 0 1 10 0v3"></path>
+    <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
+  </svg>
+  Admin
+</a>
+
       </nav>
+      <!-- Mobile admin button (vises kun < md) -->
+<div class="md:hidden mt-3">
+  <a href="admin.html"
+     class="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-100 text-slate-700 border border-slate-300 text-sm font-medium">
+    Admin
+  </a>
+</div>
+
     </div>
     <div class="border-t bg-white/90">
       <div class="max-w-7xl mx-auto px-4 overflow-hidden relative grid items-center">
