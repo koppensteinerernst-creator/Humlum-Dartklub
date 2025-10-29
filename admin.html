@@ -330,6 +330,28 @@ function showBar(){
   });
 })();
 </script>
+})();  
+</script>
+
+<!-- GEM-KNAP SCRIPT (placeret lige før </body>) -->
+<script>
+  // Aktivér "Gem ændringer"-knappen
+  document.getElementById("saveBtn").addEventListener("click", function () {
+    const btn = document.getElementById("saveBtn");
+    const status = document.getElementById("saveStatus");
+    btn.disabled = true;
+    status.textContent = "Gemmer...";
+
+    // Midlertidig demo-feedback (backend kommer i næste trin)
+    setTimeout(() => {
+      status.textContent = "✅ Ændringer gemt (demo)";
+      btn.disabled = false;
+    }, 800);
+  });
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
