@@ -1,0 +1,89 @@
+{
+  "heroTitle": "Dart for alle – fællesskab & præcision",
+  "heroRotator": "Familiehold — træn sammen;Intro for begyndere hver torsdag;Trygge rammer for alle niveauer;Ranglister & 180‑klub",
+  "heroSubtitle": "Humlum Dartklub – træning, hygge og turneringer for alle niveauer.",
+  "heroImage": "https://images.unsplash.com/photo-1571731956672-c22282f11134?q=80&w=1400&auto=format&fit=crop",
+  "newsList": "Ons 19:00 – Træning\nLør 08/11 – Hyggeturnering 501\nTor 07/11 – Begynderintro\nTak til Struer Energi",
+  "trainingPlan": "Begynderhold: Ons 18:00 – 19:00\nKlubhold: Ons 19:00 – 20:30\nPro Team: Fre 17:00 – 18:30",
+  "events": "2025-11-08 12:00 | Voksne | Hyggeturnering – 501\n2025-11-02 10:00 | Ungdom | Ungdomscup (U11/U15)\n2025-11-21 18:00 | Voksne | Rangliste #4\n29/10 19:00 – Træning – Fokus på T20",
+  "sponsors": "Struer Energi\nLokalBank\nByg & Co",
+  "gallery": [
+    "https://images.unsplash.com/photo-1577471488278-16eec37ffcc6?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1616362708387-343f3a071923?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1572982774816-2de5c1e6d18a?q=80&w=800&auto=format&fit=crop"
+  ],
+  "contact": "Humlum Dartklub\nStadionvej 1, 7600 Struer\nMail: humlum.dartklub@gmail.com\nFacebook: fb.com/HumlumDartklub\nInstagram: @humlumdartklub",
+  "nextTraining": "Onsdag kl. 19:00",
+  "ranking": "1. Jens — 142p\n2. Mette — 137p\n3. Søren — 128p",
+  "one80": "Ernst — 180 (12/10)\nMads — 180 (05/10)",
+  "highFinish": "Jens — 170\nSøren — 164",
+  "potm": {
+    "name": "Mette M.",
+    "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop",
+    "quote": "Rolig hånd, skarp lukker."
+  },
+  "about": "Humlum Dartklub er et fællesskab for alle, der elsker dart — fra begyndere til turneringsspillere.",
+  "member_form_url": "",
+  "sponsor_form_url": "",
+  "membershipPackages": [
+    {
+      "name": "Bronze",
+      "price": "250 kr/år",
+      "perks": [
+        "Fri træning onsdag",
+        "Klubtrøje (tilkøb)",
+        "Deltag i rangliste"
+      ],
+      "id": "bronze"
+    },
+    {
+      "name": "Sølv",
+      "price": "450 kr/år",
+      "perks": [
+        "Alt i Bronze",
+        "Turneringsrabat",
+        "1 gæst pr. måned"
+      ],
+      "id": "soelv"
+    },
+    {
+      "name": "Guld",
+      "price": "750 kr/år",
+      "perks": [
+        "Alt i Sølv",
+        "Gratis klubtrøje",
+        "Prioriteret banebooking"
+      ],
+      "id": "guld"
+    }
+  ],
+  "sponsorPackages": [
+    {
+      "name": "Bronze Sponsor",
+      "price": "1.500 kr/år",
+      "perks": [
+        "Logo på web",
+        "Tak i SoMe"
+      ],
+      "id": "sp-bronze"
+    },
+    {
+      "name": "Sølv Sponsor",
+      "price": "3.000 kr/år",
+      "perks": [
+        "Alt i Bronze",
+        "Logo på banner i hallen"
+      ],
+      "id": "sp-soelv"
+    },
+    {
+      "name": "Guld Sponsor",
+      "price": "7.500 kr/år",
+      "perks": [
+        "Alt i Sølv",
+        "Stort logo + event-samarbejde"
+      ],
+      "id": "sp-guld"
+    }
+  ]
+}

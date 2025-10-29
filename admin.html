@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Humlum Admin — konfiguration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    textarea{min-height:110px}
+    .card{border-radius:1rem; border:1px solid #e5e7eb; background:#fff; box-shadow: 0 10px 20px -10px rgba(2,6,23,.1)}
+    .row{display:grid; grid-template-columns: 220px 1fr; gap:1rem; align-items:flex-start}
+    .pill{border-radius:9999px; border:1px solid #e5e7eb; padding:.25rem .5rem; font-size:.75rem}
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <header class="bg-white border-b sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="font-extrabold text-lg">Humlum Admin</div>
+      <div class="flex gap-2">
+        <a class="pill" href="humlum-restart-index.html" target="_blank">Forside</a>
+        <a class="pill" href="member.html" target="_blank">Bliv medlem</a>
+        <a class="pill" href="sponsor.html" target="_blank">Sponsorer</a>
+        <a class="pill" href="about.html" target="_blank">Om os</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6 grid gap-6">
+    <section class="card p-5">
+      <h2 class="font-bold text-xl">1) Indlæs eksisterende config</h2>
+      <p class="text-sm text-slate-600">Vi læser <code>data/config.json</code>. Gem ændringer som ny fil og upload den.</p>
+      <div class="mt-3 flex items-center gap-3">
+        <button id="reload" class="rounded-xl px-4 py-2 border bg-white hover:bg-slate-50">Genindlæs</button>
+        <button id="download" class="rounded-xl px-4 py-2 bg-emerald-600 text-white">Download opdateret config.json</button>
+        <span id="status" class="text-sm text-slate-500"></span>
+      </div>
+    </section>
+
+    <section class="card p-5 grid gap-4">
+      <h2 class="font-bold text-xl">2) Basis</h2>
+      <div class="row">
+        <label class="font-medium">Hero titel</label>
+        <input id="heroTitle" class="rounded-xl border px-3 py-2 w-full">
+      </div>
+      <div class="row">
+        <label class="font-medium">Hero undertekst</label>
+        <input id="heroSubtitle" class="rounded-xl border px-3 py-2 w-full">
+      </div>
+      <div class="row">
+        <label class="font-medium">Hero billede (URL)</label>
+        <input id="heroImage" class="rounded-xl border px-3 py-2 w-full">
+      </div>
+      <div class="row">
+        <label class="font-medium">Rotator (semicolon ; mellem items)</label>
+        <input id="heroRotator" class="rounded-xl border px-3 py-2 w-full">
+      </div>
+      <div class="row">
+        <label class="font-medium">Ticker & nyheder (linjeskift = ny)</label>
+        <textarea id="newsList" class="rounded-xl border px-3 py-2 w-full"></textarea>
+      </div>
+      <div class="row">
+        <label class="font-medium">Events (fleksibel parser, én pr. linje)</label>
+        <textarea id="events" class="rounded-xl border px-3 py-2 w-full" placeholder="2025-11-08 12:00 | Voksne | Hyggeturnering – 501"></textarea>
+      </div>
+      <div class="row">
+        <label class="font-medium">Kontakt (vises under Kontakt)</label>
+        <textarea id="contact" class="rounded-xl border px-3 py-2 w-full"></textarea>
+      </div>
+    </section>
+
+    <section class="card p-5 grid gap-4">
+      <h2 class="font-bold text-xl">3) “Om os”</h2>
+      <div class="row">
+        <label class="font-medium">Tekst</label>
+        <textarea id="about" class="rounded-xl border px-3 py-2 w-full"></textarea>
+      </div>
+    </section>
+
+    <section class="card p-5 grid gap-4">
+      <h2 class="font-bold text-xl">4) Medlemskab</h2>
+      <div class="row">
+        <label class="font-medium">Ekstern formular (Google Form URL)</label>
+        <input id="member_form_url" class="rounded-xl border px-3 py-2 w-full" placeholder="https://forms.gle/...">
+      </div>
+      <div>
+        <div class="text-sm text-slate-600">Pakker (navn, pris, fordele — én fordel pr. linje)</div>
+        <div id="packages" class="mt-3 grid gap-3"></div>
+        <button id="addPackage" class="mt-2 rounded-xl px-3 py-2 border bg-white hover:bg-slate-50">+ Tilføj pakke</button>
+      </div>
+    </section>
+
+    <section class="card p-5 grid gap-4">
+      <h2 class="font-bold text-xl">5) Sponsorer</h2>
+      <div class="row">
+        <label class="font-medium">Sponsorer (liste – linje for linje)</label>
+        <textarea id="sponsors" class="rounded-xl border px-3 py-2 w-full"></textarea>
+      </div>
+      <div class="row">
+        <label class="font-medium">Sponsorformular (Google Form URL)</label>
+        <input id="sponsor_form_url" class="rounded-xl border px-3 py-2 w-full" placeholder="https://forms.gle/...">
+      </div>
+      <div>
+        <div class="text-sm text-slate-600">Sponsor-pakker</div>
+        <div id="spackages" class="mt-3 grid gap-3"></div>
+        <button id="addSPackage" class="mt-2 rounded-xl px-3 py-2 border bg-white hover:bg-slate-50">+ Tilføj sponsor-pakke</button>
+      </div>
+    </section>
+
+    <section class="card p-5 grid gap-4">
+      <h2 class="font-bold text-xl">6) Statistik</h2>
+      <div class="row"><label class="font-medium">Rangliste</label><textarea id="ranking" class="rounded-xl border px-3 py-2 w-full"></textarea></div>
+      <div class="row"><label class="font-medium">180-klub</label><textarea id="one80" class="rounded-xl border px-3 py-2 w-full"></textarea></div>
+      <div class="row"><label class="font-medium">Højeste lukker</label><textarea id="highFinish" class="rounded-xl border px-3 py-2 w-full"></textarea></div>
+      <div class="row"><label class="font-medium">Månedens spiller (navn)</label><input id="potm_name" class="rounded-xl border px-3 py-2 w-full"></div>
+      <div class="row"><label class="font-medium">Billede (URL)</label><input id="potm_image" class="rounded-xl border px-3 py-2 w-full"></div>
+      <div class="row"><label class="font-medium">Citat</label><input id="potm_quote" class="rounded-xl border px-3 py-2 w-full"></div>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="font-bold text-xl">7) Links – hvor peger knapperne hen?</h2>
+      <ul class="list-disc ml-6 text-sm">
+        <li><b>Forside “Bliv medlem”</b> → <code>member.html</code> (viser pakker + formular). Hvis <code>member_form_url</code> er sat, går knapperne dertil.</li>
+        <li><b>Forside “Se sponsorpakker”</b> → <code>sponsor.html</code> (viser sponsor-pakker + formular). Hvis <code>sponsor_form_url</code> er sat, går knapperne dertil.</li>
+        <li><b>Menu “Om klubben”</b> → <code>about.html</code> (styres af feltet “Om os”).</li>
+      </ul>
+      <p class="mt-2 text-slate-600 text-sm">Tip: Link knappen “Admin” i footeren/navigation til denne side (<code>admin.html</code>).</p>
+    </section>
+  </main>
+
+  <script>
+    let state = {};
+
+    async function load(){
+      const r = await fetch('data/config.json?ts='+(Date.now()));
+      state = await r.json();
+      bind();
+      document.getElementById('status').textContent = "Indlæst.";
+    }
+
+    function elt(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+
+    function bind(){
+      const set = (id, v) => document.getElementById(id).value = v ?? "";
+      set('heroTitle', state.heroTitle);
+      set('heroSubtitle', state.heroSubtitle);
+      set('heroImage', state.heroImage);
+      set('heroRotator', state.heroRotator);
+      set('newsList', state.newsList);
+      set('events', state.events);
+      set('contact', state.contact);
+      set('about', state.about||"");
+      set('member_form_url', state.member_form_url||"");
+      set('sponsors', state.sponsors||"");
+      set('sponsor_form_url', state.sponsor_form_url||"");
+      set('ranking', state.ranking||"");
+      set('one80', state.one80||"");
+      set('highFinish', state.highFinish||"");
+      set('potm_name', (state.potm||{}).name||"");
+      set('potm_image', (state.potm||{}).image||"");
+      set('potm_quote', (state.potm||{}).quote||"");
+
+      // Membership packages
+      const wrap = document.getElementById('packages'); wrap.innerHTML="";
+      (state.membershipPackages||[]).forEach((p, idx)=>{
+        wrap.appendChild(elt(`
+          <div class="rounded-xl border p-3 grid gap-2">
+            <div class="row"><label>Navn</label><input data-idx="${idx}" data-key="name" class="pkg rounded-xl border px-3 py-2" value="${p.name||''}"></div>
+            <div class="row"><label>Pris</label><input data-idx="${idx}" data-key="price" class="pkg rounded-xl border px-3 py-2" value="${p.price||''}"></div>
+            <div class="row"><label>Fordele (linjer)</label><textarea data-idx="${idx}" data-key="perks" class="pkg rounded-xl border px-3 py-2">${(p.perks||[]).join('\n')}</textarea></div>
+          </div>
+        `));
+      });
+
+      // Sponsor packages
+      const swrap = document.getElementById('spackages'); swrap.innerHTML="";
+      (state.sponsorPackages||[]).forEach((p, idx)=>{
+        swrap.appendChild(elt(`
+          <div class="rounded-xl border p-3 grid gap-2">
+            <div class="row"><label>Navn</label><input data-idx="${idx}" data-key="name" class="spkg rounded-xl border px-3 py-2" value="${p.name||''}"></div>
+            <div class="row"><label>Pris</label><input data-idx="${idx}" data-key="price" class="spkg rounded-xl border px-3 py-2" value="${p.price||''}"></div>
+            <div class="row"><label>Fordele (linjer)</label><textarea data-idx="${idx}" data-key="perks" class="spkg rounded-xl border px-3 py-2">${(p.perks||[]).join('\n')}</textarea></div>
+          </div>
+        `));
+      });
+
+      // Listeners
+      document.querySelectorAll('#packages .pkg').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = +e.target.dataset.idx; const key=e.target.dataset.key;
+          if(key==='perks'){ state.membershipPackages[i][key] = e.target.value.split('\n').map(s=>s.trim()).filter(Boolean); }
+          else { state.membershipPackages[i][key] = e.target.value; }
+        });
+      });
+      document.querySelectorAll('#spackages .spkg').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = +e.target.dataset.idx; const key=e.target.dataset.key;
+          if(key==='perks'){ state.sponsorPackages[i][key] = e.target.value.split('\n').map(s=>s.trim()).filter(Boolean); }
+          else { state.sponsorPackages[i][key] = e.target.value; }
+        });
+      });
+    }
+
+    function collect(){
+      const get = id => document.getElementById(id).value;
+      state.heroTitle = get('heroTitle');
+      state.heroSubtitle = get('heroSubtitle');
+      state.heroImage = get('heroImage');
+      state.heroRotator = get('heroRotator');
+      state.newsList = get('newsList');
+      state.events = get('events');
+      state.contact = get('contact');
+      state.about = get('about');
+      state.member_form_url = get('member_form_url');
+      state.sponsors = get('sponsors');
+      state.sponsor_form_url = get('sponsor_form_url');
+      state.ranking = get('ranking');
+      state.one80 = get('one80');
+      state.highFinish = get('highFinish');
+      state.potm = { name:get('potm_name'), image:get('potm_image'), quote:get('potm_quote') };
+      return state;
+    }
+
+    function download(filename, text) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], {type: 'application/json'}));
+      a.download = filename;
+      a.click();
+    }
+
+    document.getElementById('reload').onclick = load;
+    document.getElementById('download').onclick = ()=>{
+      const updated = collect();
+      download('config.json', JSON.stringify(updated, null, 2));
+      document.getElementById('status').textContent = "Download klar – upload filen til /data/config.json";
+    };
+
+    document.getElementById('addPackage').onclick = ()=>{
+      state.membershipPackages = state.membershipPackages || [];
+      state.membershipPackages.push({name:"Ny pakke", price:"", perks:[], id:"pkg-"+Math.random().toString(36).slice(2,7)});
+      bind();
+    };
+    document.getElementById('addSPackage').onclick = ()=>{
+      state.sponsorPackages = state.sponsorPackages || [];
+      state.sponsorPackages.push({name:"Ny sponsor-pakke", price:"", perks:[], id:"sp-"+Math.random().toString(36).slice(2,7)});
+      bind();
+    };
+
+    load();
+  </script>
+</body>
+</html>

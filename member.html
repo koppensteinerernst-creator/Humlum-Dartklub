@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bliv medlem — Humlum Dartklub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-800">
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-extrabold">Bliv medlem</h1>
+    <p class="mt-2 text-slate-600">Vælg din pakke og send dine oplysninger. Vi vender hurtigt tilbage.</p>
+
+    <div id="packages" class="mt-8 grid md:grid-cols-3 gap-6"></div>
+
+    <section class="mt-10 rounded-3xl border p-6 shadow-sm">
+      <h2 class="text-xl font-bold">Tilmeldingsformular</h2>
+      <p class="text-sm text-slate-600">Hvis klubben bruger Google Form, sendes du dertil automatisk.</p>
+      <form id="form" class="grid md:grid-cols-2 gap-4 mt-4">
+        <input name="navn" placeholder="Fulde navn" class="rounded-xl border px-3 py-2" required>
+        <input name="email" placeholder="E-mail" type="email" class="rounded-xl border px-3 py-2" required>
+        <input name="telefon" placeholder="Telefon" class="rounded-xl border px-3 py-2">
+        <input name="pakke" id="pakke" placeholder="Valgt pakke" class="rounded-xl border px-3 py-2" readonly>
+        <textarea name="besked" placeholder="Evt. besked" class="rounded-xl border px-3 py-2 md:col-span-2"></textarea>
+        <button class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold">Send</button>
+      </form>
+      <p class="text-xs text-slate-500 mt-2">Fallback: vi åbner en e-mail til klubben med dine oplysninger.</p>
+    </section>
+  </main>
+
+  <script>
+    let cfg = {};
+    async function load(){
+      try{
+        const r = await fetch('data/config.json?ts='+(Date.now()));
+        cfg = await r.json();
+      }catch(e){ cfg = {}; }
+      render();
+    }
+    function render(){
+      const wrap = document.getElementById('packages'); wrap.innerHTML="";
+      const list = (cfg.membershipPackages||[]);
+      list.forEach(p=>{
+        const card = document.createElement('article');
+        card.className = "rounded-3xl border p-5 shadow-sm";
+        card.innerHTML = `
+          <div class="text-lg font-bold">${p.name}</div>
+          <div class="text-emerald-700 font-semibold mt-1">${p.price||""}</div>
+          <ul class="mt-3 text-sm text-slate-700">${(p.perks||[]).map(x=>`<li>• ${x}</li>`).join('')}</ul>
+          <div class="mt-4">
+            <a class="selectBtn rounded-xl px-4 py-2 border inline-block hover:bg-slate-50" data-id="${p.id}">Vælg ${p.name}</a>
+            ${cfg.member_form_url ? `<a class="ml-2 rounded-xl px-4 py-2 bg-emerald-600 text-white inline-block" href="${cfg.member_form_url}" target="_blank">Tilmeld nu</a>` : ''}
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+
+      wrap.querySelectorAll('.selectBtn').forEach(btn=>{
+        btn.onclick = ()=>{
+          const id = btn.dataset.id;
+          const pkg = (cfg.membershipPackages||[]).find(x=>x.id===id);
+          document.getElementById('pakke').value = pkg ? pkg.name : "";
+          if(cfg.member_form_url){
+            window.open(cfg.member_form_url, '_blank');
+          }
+        };
+      });
+
+      document.getElementById('form').onsubmit = (e)=>{
+        e.preventDefault();
+        const data = new FormData(e.target);
+        const subject = encodeURIComponent("Medlemskab — " + (data.get('pakke')||""));
+        const body = encodeURIComponent(
+          `Navn: ${data.get('navn')}\nEmail: ${data.get('email')}\nTelefon: ${data.get('telefon')}\nPakke: ${data.get('pakke')}\nBesked:\n${data.get('besked')}`
+        );
+        const mail = cfg.contact && cfg.contact.includes("Mail:") ? (cfg.contact.split("Mail:")[1].split('\n')[0].trim()) : "humlum.dartklub@gmail.com";
+        window.location.href = `mailto:${mail}?subject=${subject}&body=${body}`;
+      };
+    }
+    load();
+  </script>
+</body>
+</html>

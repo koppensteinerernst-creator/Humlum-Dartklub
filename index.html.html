@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Humlum Dartklub — Fællesskab & Præcision (Restart)</title>
+  <meta name="description" content="Humlum Dartklub: træning, hygge og turneringer for alle niveauer. Se nyheder, træningsplan, kalender og tilmeld dig her." />
+  <link rel="icon" href="images/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html{scroll-behavior:smooth}
+    /* Ticker */
+    #ticker{animation: slideLeft 30s linear infinite; white-space:nowrap; padding:.35rem 0}
+    #ticker:hover{animation-play-state:paused}
+    @keyframes slideLeft{from{transform:translateX(100%)} to{transform:translateX(-100%)}}
+    /* Rotator fade */
+    .fade{opacity:0; transition:opacity .6s ease}
+    .fade.show{opacity:1}
+    /* Live-pill */
+    .live-pill{background:#dc2626; color:#fff; border-radius:9999px; padding:.125rem .5rem; font-size:.75rem; font-weight:700}
+    /* Event filter pills */
+    .pill{border-radius:9999px}
+    /* Simple utilities */
+    .shadow-soft{box-shadow:0 10px 20px -10px rgba(2,6,23,.15)}
+  </style>
+</head>
+<body class="bg-white text-slate-800">
+  <!-- ===== HEADER ===== -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <!-- Skift evt. logo-sti -->
+        <img src="images/logo DK.hvid.png" alt="Humlum Dartklub logo" class="h-14 w-14 md:h-16 md:w-16 object-contain" />
+        <div>
+          <div class="text-2xl md:text-3xl font-extrabold leading-tight text-slate-900">Humlum Dartklub</div>
+          <div class="text-xs text-slate-500 -mt-0.5">Fællesskab & Præcision</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-base font-medium">
+        <a href="#news" class="hover:text-cyan-700">Nyheder</a>
+        <a href="#training" class="hover:text-cyan-700">Træningsplan</a>
+        <a href="#events" class="hover:text-cyan-700">Aktiviteter</a>
+        <a href="#calendar" class="hover:text-cyan-700">Kalender</a>
+        <a href="#lanes" class="hover:text-cyan-700">Book baner</a>
+        <a href="#gallery" class="hover:text-cyan-700">Galleri</a>
+        <a href="#stats" class="hover:text-cyan-700">Statistik</a>
+        <a href="#sponsors" class="hover:text-cyan-700">Sponsorer</a>
+        <a href="#contact" class="hover:text-cyan-700">Kontakt</a>
+        <a href="#join" class="ml-2 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white shadow hover:opacity-90">Bliv medlem</a>
+      </nav>
+    </div>
+    <div class="border-t bg-white/90">
+      <div class="max-w-7xl mx-auto px-4 overflow-hidden relative grid items-center">
+        <div id="ticker" class="text-sm text-emerald-700 font-medium">
+          <span id="bind-news-ticker">Ons 19:00 – Træning · Lør 08/11 – Hyggeturnering 501 · Tor 07/11 – Begynderintro</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO + HERO NEWS ===== -->
+  <section id="news" class="relative">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-cyan-50 via-white to-emerald-50"></div>
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+          <span id="bind-heroTitle">Dart for alle – fællesskab & præcision</span>
+        </h1>
+        <div id="bind-heroRotator" class="mt-2 text-emerald-700 font-semibold fade"></div>
+        <p id="bind-heroSubtitle" class="mt-4 text-lg text-slate-600">
+          Hos Humlum Dartklub samles vi om spillet, præcisionen og hyggen — uanset alder og niveau.
+        </p>
+
+        <!-- Nyhedsslider (enkelt) -->
+        <div class="mt-6 rounded-2xl border bg-white/70 backdrop-blur shadow overflow-hidden">
+          <div class="px-4 py-3 flex items-center justify-between">
+            <div class="text-sm font-semibold text-slate-700">Klubnyheder</div>
+            <div class="flex items-center gap-2">
+              <button id="prevNews" class="h-8 w-8 grid place-content-center rounded-lg border hover:bg-slate-50" aria-label="Forrige nyhed">‹</button>
+              <button id="nextNews" class="h-8 w-8 grid place-content-center rounded-lg border hover:bg-slate-50" aria-label="Næste nyhed">›</button>
+            </div>
+          </div>
+          <div id="newsContent" class="px-4 pb-4 text-slate-700 text-sm min-h-[48px] grid items-center"></div>
+        </div>
+
+        <!-- CTA buttons -->
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a href="#join" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem</a>
+          <a href="#sponsors" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Se sponsorpakker</a>
+        </div>
+      </div>
+
+      <!-- Hero image + badge -->
+      <div class="relative">
+        <div class="rounded-3xl overflow-hidden shadow-soft border">
+          <img
+            id="bind-heroImage"
+            src="https://images.unsplash.com/photo-1571731956672-c22282f11134?q=80&w=1400&auto=format&fit=crop"
+            alt="Dart hero"
+            class="w-full h-72 md:h-96 lg:h-[32rem] object-cover"
+          />
+        </div>
+        <div class="hidden md:flex absolute -bottom-4 right-0 bg-white/90 backdrop-blur rounded-xl border shadow px-4 py-2">
+          <p class="text-sm">Næste træning: <span class="font-semibold text-emerald-700" id="bind-nextTraining">Onsdag kl. 19:00</span></p>
+        </div>
+        <div class="md:hidden mt-3 inline-flex bg-white/90 backdrop-blur rounded-xl border shadow px-4 py-2">
+          <p class="text-sm">Næste træning: <span class="font-semibold text-emerald-700" id="bind-nextTrainingM">Onsdag kl. 19:00</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRÆNINGSPLAN ===== -->
+  <section id="training" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Træningsplan — alle niveauer</h2>
+          <p class="mt-2 text-slate-600">Struktureret ugerytme for begynder, klub og pro.</p>
+        </div>
+        <a href="#join" class="hidden md:inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white text-sm font-semibold hover:opacity-90">Tilmeld interesse</a>
+      </div>
+
+      <div id="trainingGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
+
+      <div class="mt-8 rounded-3xl border bg-white p-6 shadow-sm overflow-x-auto">
+        <h3 class="text-lg font-bold">Ugeoversigt (print-venlig)</h3>
+        <table class="mt-4 w-full text-sm">
+          <thead>
+            <tr class="text-left text-slate-500 border-b">
+              <th class="py-2">Dag</th><th class="py-2">Tid</th><th class="py-2">Hold</th><th class="py-2">Fokus</th>
+            </tr>
+          </thead>
+          <tbody id="trainingTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AKTIVITETER + LIVE ===== -->
+  <section id="events" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Aktiviteter — for alle</h2>
+          <p class="mt-2 text-slate-600">“LIVE NU” vises automatisk tæt på starttid.</p>
+        </div>
+        <a href="#calendar" class="rounded-xl border px-4 py-2 hover:bg-slate-50">Gå til kalender</a>
+      </div>
+
+      <!-- LIVE events -->
+      <div id="bind-live" class="mt-6 grid gap-3"></div>
+
+      <!-- Filter pills -->
+      <div class="mt-6 flex flex-wrap gap-2">
+        <button data-filter="Alle" class="pill px-4 py-2 rounded-full border text-sm font-semibold">Alle</button>
+        <button data-filter="Familie" class="pill px-4 py-2 rounded-full border text-sm font-semibold">Familie</button>
+        <button data-filter="Ungdom" class="pill px-4 py-2 rounded-full border text-sm font-semibold">Ungdom</button>
+        <button data-filter="Voksne" class="pill px-4 py-2 rounded-full border text-sm font-semibold">Voksne</button>
+      </div>
+
+      <!-- Liste -->
+      <div id="bind-events" class="mt-6 grid md:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- ===== KALENDER (mini) ===== -->
+  <section id="calendar" class="py-16 bg-white border-t">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Eventkalender</h2>
+      <p class="mt-2 text-slate-600">Klik på en dato for at se dagens aktiviteter.</p>
+
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <div class="md:col-span-1">
+          <div id="cal-header" class="flex items-center justify-between mb-3">
+            <button id="cal-prev" class="rounded-lg border px-3 py-1 hover:bg-slate-50">&larr;</button>
+            <div id="cal-title" class="font-semibold"></div>
+            <button id="cal-next" class="rounded-lg border px-3 py-1 hover:bg-slate-50">&rarr;</button>
+          </div>
+          <div class="grid grid-cols-7 text-xs text-slate-500 mb-1">
+            <div>Man</div><div>Tir</div><div>Ons</div><div>Tor</div><div>Fre</div><div>Lør</div><div>Søn</div>
+          </div>
+          <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
+        </div>
+
+        <div id="cal-day" class="md:col-span-2 rounded-2xl border p-4 shadow-sm bg-white">
+          <div class="text-sm text-slate-500" id="cal-day-title">Vælg en dato</div>
+          <div id="cal-day-list" class="mt-3 grid gap-3"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BOOK BANER ===== -->
+  <section id="lanes" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Book baner & QR</h2>
+      <p class="mt-2 text-slate-600">Vælg bane og handling.</p>
+
+      <div class="mt-6 grid gap-3 max-w-xl">
+        <label class="text-sm font-medium">Vælg bane</label>
+        <select id="laneSelect" class="rounded-xl border px-3 py-2">
+          <option value="1">Bane 1</option><option value="2">Bane 2</option>
+          <option value="3">Bane 3</option><option value="4">Bane 4</option>
+          <option value="5">Bane 5</option><option value="6">Bane 6</option>
+          <option value="7">Bane 7</option><option value="8">Bane 8</option>
+        </select>
+
+        <div class="flex gap-2">
+          <a id="laneScore" class="rounded-xl border px-3 py-2 text-center hover:bg-slate-50" href="#score?lane=1">Score</a>
+          <a id="laneBook" class="rounded-xl border px-3 py-2 text-center hover:bg-slate-50" href="#book?lane=1">Book</a>
+          <a id="laneQR" class="rounded-xl border px-3 py-2 text-center hover:bg-slate-50" href="#qr?lane=1">QR</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERI ===== -->
+  <section id="gallery" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <details class="rounded-2xl border shadow-sm bg-white group open:shadow-md">
+        <summary class="cursor-pointer list-none flex items-center justify-between p-4">
+          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Galleri</h2>
+          <span class="text-sm rounded-xl border px-3 py-1 group-open:rotate-180 transition">▼</span>
+        </summary>
+        <p class="px-4 text-slate-600 -mt-2">Et glimt af stemningen i klubben.</p>
+        <div id="bind-gallery" class="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 pb-4">
+          <img src="https://images.unsplash.com/photo-1577471488278-16eec37ffcc6?q=80&w=800&auto=format&fit=crop" class="rounded-xl shadow border" alt="Galleri 1">
+          <img src="https://images.unsplash.com/photo-1616362708387-343f3a071923?q=80&w=800&auto=format&fit=crop" class="rounded-xl shadow border" alt="Galleri 2">
+          <img src="https://images.unsplash.com/photo-1572982774816-2de5c1e6d18a?q=80&w=800&auto=format&fit=crop" class="rounded-xl shadow border" alt="Galleri 3">
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== STATISTIK ===== -->
+  <section id="stats" class="py-12 bg-white border-t">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-3 gap-6">
+      <article class="rounded-3xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-bold mb-3">Månedens spiller</h3>
+        <div id="potmBox" class="grid gap-3"><div class="text-sm text-slate-500">Ikke valgt endnu.</div></div>
+      </article>
+      <article class="rounded-3xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-bold">Rangliste</h3>
+        <ul id="rankList" class="mt-3 grid gap-2 text-sm"><li class="text-sm text-slate-500">Ingen data endnu.</li></ul>
+      </article>
+      <article class="rounded-3xl border bg-white p-6 shadow-sm grid gap-6">
+        <div>
+          <h3 class="text-lg font-bold">180-klub</h3>
+          <ul id="one80List" class="mt-3 grid gap-2 text-sm"><li class="text-sm text-slate-500">Ingen data endnu.</li></ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold">Højeste lukker</h3>
+          <ul id="hfList" class="mt-3 grid gap-2 text-sm"><li class="text-sm text-slate-500">Ingen data endnu.</li></ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== SPONSORER ===== -->
+  <section id="sponsors" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-t">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Sponsorer</h2>
+      <p class="mt-2 text-slate-600">Tak til vores partnere.</p>
+      <ul id="bind-sponsors" class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 list-none">
+        <li class="aspect-[3/2] rounded-2xl border bg-white grid place-content-center p-4 font-semibold text-cyan-700">Struer Energi</li>
+        <li class="aspect-[3/2] rounded-2xl border bg-white grid place-content-center p-4 font-semibold text-cyan-700">LokalBank</li>
+        <li class="aspect-[3/2] rounded-2xl border bg-white grid place-content-center p-4 font-semibold text-cyan-700">Byg & Co</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== KONTAKT ===== -->
+  <section id="contact" class="py-16 bg-gradient-to-t from-cyan-50/60 to-emerald-50/60 border-t">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Kontakt & tilmelding</h2>
+      <p id="bind-contact" class="mt-2 text-slate-600 whitespace-pre-line">
+Humlum Dartklub
+Stadionvej 1, 7600 Struer
+Mail: humlum.dartklub@gmail.com
+Facebook: fb.com/HumlumDartklub
+Instagram: @humlumdartklub
+      </p>
+      <div class="mt-4 flex gap-3 justify-center">
+        <a id="join" href="mailto:humlum.dartklub@gmail.com" class="rounded-2xl px-6 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem / skriv til os</a>
+        <a href="#lanes" class="rounded-2xl px-6 py-3 border font-semibold hover:bg-slate-50">Book en bane</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="py-10 border-t bg-white">
+    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 items-start">
+      <div>
+        <div class="font-extrabold">Humlum Dartklub</div>
+        <div class="text-sm text-slate-500">Fællesskab & Præcision</div>
+        <p class="mt-3 text-sm text-slate-600">CVR 12345678 · Stadionvej 1, 7600 Struer</p>
+      </div>
+      <div class="text-sm">
+        <div class="font-semibold">Menu</div>
+        <ul class="mt-2 grid gap-1">
+          <li><a href="#training" class="hover:text-cyan-700">Træningsplan</a></li>
+          <li><a href="#events" class="hover:text-cyan-700">Aktiviteter</a></li>
+          <li><a href="#calendar" class="hover:text-cyan-700">Kalender</a></li>
+          <li><a href="#lanes" class="hover:text-cyan-700">Book baner</a></li>
+          <li><a href="#sponsors" class="hover:text-cyan-700">Sponsorer</a></li>
+          <li><a href="#contact" class="hover:text-cyan-700">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="text-sm">
+        <div class="font-semibold">Links</div>
+        <ul class="mt-2 grid gap-1">
+          <li><a href="https://www.dart-ddu.dk" target="_blank" class="hover:text-cyan-700">DDU — Dansk Dart Union</a></li>
+          <li><a href="https://www.pdc.tv" target="_blank" class="hover:text-cyan-700">PDC — World Darts</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-10 text-center text-xs text-slate-500">© <span id="year"></span> Humlum Dartklub</div>
+  </footer>
+
+  <!-- ===== DATA & LOGIK (kombineret, med fallbacks) ===== -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const Fallback = {
+      heroTitle: "Dart for alle – fællesskab & præcision",
+      heroRotator: "Familiehold — træn sammen;Intro for begyndere hver torsdag;Trygge rammer for alle niveauer",
+      heroSubtitle: "Hos Humlum Dartklub samles vi om spillet, præcisionen og hyggen — uanset alder og niveau.",
+      heroImage: "https://images.unsplash.com/photo-1571731956672-c22282f11134?q=80&w=1400&auto=format&fit=crop",
+      newsList: "Ons 19:00 – Træning\\nLør 08/11 – Hyggeturnering 501\\nTor 07/11 – Begynderintro\\nTak til vores nye sponsor Spar Humlum!",
+      trainingPlan: "Begynderhold: Ons 18:00 – 19:00\\nKlubhold: Ons 19:00 – 20:30\\nPro Team: Fre 17:00 – 18:30",
+      events: "2025-11-08 13:00 | Event | Hyggeturnering 501\\n2025-11-21 19:00 | Rangliste | Rangliste #4\\n29/10 19:00 – Træning – Fokus på Triple 20",
+      sponsors: "Struer Energi\\nLokalBank\\nByg & Co",
+      contact: "Humlum Dartklub\\nStadionvej 1, 7600 Struer\\nMail: humlum.dartklub@gmail.com\\nFacebook: fb.com/HumlumDartklub\\nInstagram: @humlumdartklub",
+      gallery: [
+        "https://images.unsplash.com/photo-1577471488278-16eec37ffcc6?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1616362708387-343f3a071923?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1572982774816-2de5c1e6d18a?q=80&w=800&auto=format&fit=crop"
+      ],
+      nextTraining: "Onsdag kl. 19:00",
+      ranking: "",
+      one80: "",
+      highFinish: "",
+      potm: {}
+    };
+
+    async function getData(){
+      try{
+        const r = await fetch('data/config.json', {cache:'no-store'});
+        if(r.ok) return await r.json();
+      }catch(e){}
+      return {};
+    }
+
+    function applyData(d){
+      const data = Object.assign({}, Fallback, d || {});
+      // Hero
+      document.getElementById("bind-heroTitle").textContent = data.heroTitle;
+      document.getElementById("bind-heroSubtitle").textContent = data.heroSubtitle;
+      document.getElementById("bind-heroImage").src = data.heroImage || Fallback.heroImage;
+      document.getElementById("bind-nextTraining").textContent = data.nextTraining || Fallback.nextTraining;
+      document.getElementById("bind-nextTrainingM").textContent = data.nextTraining || Fallback.nextTraining;
+
+      // Rotator
+      const rot = (data.heroRotator || "").split(";").map(s=>s.trim()).filter(Boolean);
+      const rotBox = document.getElementById("bind-heroRotator");
+      let idx = 0;
+      function cycle(){
+        if(!rot.length){ rotBox.classList.remove("show"); return; }
+        rotBox.textContent = rot[idx % rot.length];
+        rotBox.classList.add("show");
+        setTimeout(()=>{ rotBox.classList.remove("show"); idx++; setTimeout(cycle, 400); }, 2800);
+      }
+      cycle();
+
+      // Ticker
+      document.getElementById("bind-news-ticker").textContent =
+        (data.newsList || "").split("\\n").filter(Boolean).join(" · ");
+
+      // Træningskort
+      const trainings = [
+        { level:"Begynder", color:"from-emerald-500 to-cyan-600", focus:"Grips, stance, sighting", times:["Ons 18:00–19:00"] },
+        { level:"Klub", color:"from-cyan-600 to-emerald-600", focus:"Dobbelt-træning, 501-legs", times:["Ons 19:00–20:30"] },
+        { level:"Pro", color:"from-sky-700 to-emerald-700", focus:"Checkout-ruter, pres-spil", times:["Fre 17:00–18:30"] },
+      ];
+      const trainingGrid = document.getElementById("trainingGrid");
+      trainingGrid.innerHTML = "";
+      trainings.forEach(t=>{
+        const el = document.createElement("article");
+        el.className = "rounded-3xl border shadow-sm overflow-hidden bg-white";
+        el.innerHTML = `
+          <div class="px-5 py-4 border-b bg-gradient-to-r ${t.color} text-white">
+            <div class="text-lg font-bold">${t.level}</div>
+            <div class="text-xs opacity-90">Fokus: ${t.focus}</div>
+          </div>
+          <div class="p-5 text-sm text-slate-700 grid gap-1">
+            ${t.times.map(x=>`<div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-600"></span>${x}</div>`).join("")}
+          </div>`;
+        trainingGrid.appendChild(el);
+      });
+
+      // Trænings tabel
+      const trainingTable = document.getElementById("trainingTable");
+      const weekRows = [
+        ["Onsdag","18:00–19:00","Begynder","Grips, stance, sighting"],
+        ["Onsdag","19:00–20:30","Klub","Dobbelt-træning, 501-legs"],
+        ["Fredag","17:00–18:30","Pro","Checkout-ruter, pres-spil"]
+      ];
+      trainingTable.innerHTML = weekRows.map(r=>`<tr class="border-b"><td class="py-2">${r[0]}</td><td class="py-2">${r[1]}</td><td class="py-2">${r[2]}</td><td class="py-2">${r[3]}</td></tr>`).join("");
+
+      // Nyhedsslider
+      const newsItems = (data.newsList || "").split("\\n").filter(Boolean);
+      let newsIndex = 0;
+      const newsEl = document.getElementById("newsContent");
+      function renderNews(){ newsEl.textContent = newsItems[newsIndex] || "Ingen nyheder endnu."; }
+      document.getElementById("prevNews").onclick = () => { newsIndex = (newsIndex - 1 + newsItems.length) % (newsItems.length||1); renderNews(); };
+      document.getElementById("nextNews").onclick = () => { newsIndex = (newsIndex + 1) % (newsItems.length||1); renderNews(); };
+      setInterval(()=>{ if(newsItems.length){ newsIndex = (newsIndex + 1) % newsItems.length; renderNews(); } }, 6000);
+      renderNews();
+
+      // Sponsorer
+      const spWrap = document.getElementById("bind-sponsors");
+      spWrap.innerHTML = "";
+      (data.sponsors || "").split("\\n").filter(Boolean).forEach(name=>{
+        const li = document.createElement("li");
+        li.className = "aspect-[3/2] rounded-2xl border bg-white grid place-content-center p-4 font-semibold text-cyan-700";
+        li.textContent = name;
+        spWrap.appendChild(li);
+      });
+
+      // Galleri
+      if (Array.isArray(data.gallery) && data.gallery.length){
+        const g = document.getElementById("bind-gallery"); g.innerHTML="";
+        data.gallery.forEach(src=>{
+          const img=document.createElement("img");
+          img.src=src; img.className="rounded-xl shadow border"; img.alt="Galleri";
+          g.appendChild(img);
+        });
+      }
+
+      // Events
+      const events = parseEvents(data.events||"");
+      renderEventList(events);
+      buildCalendar(events);
+
+      // Stats
+      const pb = document.getElementById("potmBox");
+      if (data.potm && data.potm.name) {
+        pb.innerHTML = \`
+          <img src="\${data.potm.image||''}" alt="\${data.potm.name}"
+               class="w-full h-48 object-cover md:object-contain bg-white rounded-2xl">
+          <div class="font-semibold">\${data.potm.name}</div>
+          <div class="text-sm text-slate-600">\${data.potm.quote||''}</div>
+        \`;
+      }
+      const rl = (data.ranking||'').split('\\n').map(s=>s.trim()).filter(Boolean);
+      document.getElementById('rankList').innerHTML =
+        rl.map(row=>{
+          const parts = row.split('—');
+          return \`<li class="flex items-center justify-between"><span>\${parts[0]?.trim()||row}</span><span class="font-semibold">\${(parts[1]||'').trim()}</span></li>\`;
+        }).join('') || '<li class="text-sm text-slate-500">Ingen data endnu.</li>';
+      const one80 = (data.one80||'').split('\\n').map(s=>s.trim()).filter(Boolean);
+      document.getElementById('one80List').innerHTML = one80.map(x=>\`<li>\${x}</li>\`).join('') || '<li class="text-sm text-slate-500">Ingen data endnu.</li>';
+      const hf = (data.highFinish||'').split('\\n').map(s=>s.trim()).filter(Boolean);
+      document.getElementById('hfList').innerHTML = hf.map(x=>\`<li>\${x}</li>\`).join('') || '<li class="text-sm text-slate-500">Ingen data endnu.</li>';
+
+      // Baner dropdown links
+      const laneSel = document.getElementById("laneSelect");
+      const score = document.getElementById("laneScore");
+      const book = document.getElementById("laneBook");
+      const qr = document.getElementById("laneQR");
+      function upd(){
+        const v = laneSel.value;
+        score.href = \`#score?lane=\${v}\`;
+        book.href  = \`#book?lane=\${v}\`;
+        qr.href    = \`#qr?lane=\${v}\`;
+      }
+      laneSel.onchange = upd; upd();
+    }
+
+    // Parser (accepterer flere formater)
+    function parseEvents(text){
+      const lines = text.split("\\n").map(x=>x.trim()).filter(Boolean);
+      const out=[]; const nowYear=new Date().getFullYear();
+      const mk = (y,m,d,hh,mm)=>new Date(+y,+m-1,+d,+hh||0,+mm||0);
+
+      lines.forEach(line=>{
+        let m = line.match(/^(\\d{4})[-\\/.](\\d{1,2})[-\\/.](\\d{1,2})\\s+(\\d{1,2}):(\\d{2})\\s*\\|\\s*([^|]+)\\s*\\|\\s*(.+)$/);
+        if(m){ out.push({date:mk(m[1],m[2],m[3],m[4],m[5]),cat:m[6].trim(),title:m[7].trim()}); return; }
+
+        m = line.match(/^(\\d{1,2})[\\/](\\d{1,2})\\s+(\\d{1,2}):(\\d{2})\\s*[–-]\\s*(.+)$/);
+        if(m){ out.push({date:mk(nowYear,m[2],m[1],m[3],m[4]),cat:"Klub",title:m[5].trim()}); return; }
+
+        m = line.match(/^(\\d{1,2})[.\\-](\\d{1,2})[.\\-](\\d{4})\\s+(\\d{1,2}):(\\d{2})\\s*[–-]\\s*(.+)$/);
+        if(m){ out.push({date:mk(m[3],m[2],m[1],m[4],m[5]),cat:"Event",title:m[6].trim()}); return; }
+
+        m = line.match(/^(\\d{1,2})[.\\-](\\d{1,2})[.\\-](\\d{4})\\s+(\\d{1,2}):(\\d{2})\\s*\\|\\s*([^|]+)\\s*\\|\\s*(.+)$/);
+        if(m){ out.push({date:mk(m[3],m[2],m[1],m[4],m[5]),cat:m[6].trim(),title:m[7].trim()}); return; }
+
+        out.push({date:null,cat:"Event",title:line});
+      });
+
+      out.sort((a,b)=>{
+        if(a.date && b.date) return a.date-b.date;
+        if(a.date) return -1;
+        if(b.date) return 1;
+        return a.title.localeCompare(b.title);
+      });
+      return out;
+    }
+
+    function fmt(dt){
+      return dt ? dt.toLocaleString("da-DK", { weekday:"short", day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" }) : "TBA";
+    }
+    function isLive(dt){
+      if(!dt) return false;
+      const now=new Date(); const diff=Math.abs(dt-now)/36e5;
+      return diff<=3 && dt<=new Date(now.getTime()+3*36e5);
+    }
+
+    function renderEventList(events){
+      const wrap=document.getElementById("bind-events"); wrap.innerHTML="";
+      const liveWrap=document.getElementById("bind-live"); liveWrap.innerHTML="";
+      const types=["Alle","Familie","Ungdom","Voksne"];
+
+      events.forEach(ev=>{
+        const card=document.createElement("article");
+        const liveHTML=isLive(ev.date)?`<span class="live-pill ml-2">LIVE NU</span>`:"";
+        card.className="rounded-2xl border p-5 shadow-sm bg-white";
+        card.innerHTML=`
+          <div class="text-sm text-slate-500">\${ev.date ? ev.date.toLocaleDateString('da-DK') : 'TBA'}</div>
+          <div class="mt-1 flex items-center justify-between gap-3">
+            <h3 class="font-semibold">\${ev.title} ${liveHTML}</h3>
+            <span class="text-xs px-2 py-1 rounded-full border">\${ev.cat||'Event'}</span>
+          </div>
+          <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>
+        `;
+        wrap.appendChild(card);
+        if(isLive(ev.date)) liveWrap.appendChild(card.cloneNode(true));
+      });
+
+      // Filter-knapper
+      document.querySelectorAll("[data-filter]").forEach(btn=>{
+        btn.onclick = ()=>{
+          const f = btn.getAttribute("data-filter");
+          wrap.innerHTML="";
+          events.filter(e => f==="Alle" ? true : (e.cat===f || (f==="Voksne" && (e.cat==="Voksne"||e.cat==="Event"))))
+                .forEach(ev=>{
+                  const card=document.createElement("article");
+                  const liveHTML=isLive(ev.date)?`<span class="live-pill ml-2">LIVE NU</span>`:"";
+                  card.className="rounded-2xl border p-5 shadow-sm bg-white";
+                  card.innerHTML=`
+                    <div class="text-sm text-slate-500">\${ev.date ? ev.date.toLocaleDateString('da-DK') : 'TBA'}</div>
+                    <div class="mt-1 flex items-center justify-between gap-3">
+                      <h3 class="font-semibold">\${ev.title} ${liveHTML}</h3>
+                      <span class="text-xs px-2 py-1 rounded-full border">\${ev.cat||'Event'}</span>
+                    </div>
+                    <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>
+                  `;
+                  wrap.appendChild(card);
+                });
+        };
+      });
+    }
+
+    // Mini-kalender
+    let calMonth=new Date();
+    function buildCalendar(events){
+      const header=document.getElementById("cal-title");
+      const grid=document.getElementById("cal-grid");
+      const btnPrev=document.getElementById("cal-prev");
+      const btnNext=document.getElementById("cal-next");
+      const map={};
+      events.forEach(ev=>{
+        if(!ev.date) return;
+        const k=ev.date.toISOString().slice(0,10);
+        (map[k] ||= []).push(ev);
+      });
+
+      function renderMonth(){
+        header.textContent=calMonth.toLocaleString("da-DK",{month:"long",year:"numeric"});
+        grid.innerHTML="";
+        const first=new Date(calMonth.getFullYear(),calMonth.getMonth(),1);
+        const startIdx=(first.getDay()+6)%7;
+        const daysInMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,0).getDate();
+        for(let i=0;i<startIdx;i++){const c=document.createElement("div");c.className="h-10";grid.appendChild(c);}
+        for(let d=1; d<=daysInMonth; d++){
+          const date=new Date(calMonth.getFullYear(),calMonth.getMonth(),d);
+          const k=date.toISOString().slice(0,10);
+          const has=!!map[k];
+          const cell=document.createElement("button");
+          cell.className="h-10 rounded-md border text-sm hover:bg-slate-50 " + (has?"border-emerald-300 bg-emerald-50":"");
+          cell.textContent=d;
+          cell.onclick=()=>renderDay(date);
+          grid.appendChild(cell);
+        }
+      }
+
+      function renderDay(date){
+        const k=date.toISOString().slice(0,10);
+        const list = map[k]||[];
+        document.getElementById("cal-day-title").textContent = date.toLocaleDateString("da-DK",{weekday:"long", day:"2-digit", month:"2-digit", year:"numeric"});
+        const wrap = document.getElementById("cal-day-list"); wrap.innerHTML="";
+        if(!list.length){
+          const p=document.createElement("p"); p.className="text-sm text-slate-500"; p.textContent="Ingen aktiviteter denne dag."; wrap.appendChild(p); return;
+        }
+        list.forEach(ev=>{
+          const card=document.createElement("article");
+          card.className="rounded-xl border p-4 shadow-sm bg-white";
+          card.innerHTML=`<div class="text-sm text-slate-500">\${ev.date.toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'})}</div>
+                          <div class="font-semibold">\${ev.title}</div>`;
+          wrap.appendChild(card);
+        });
+      }
+
+      btnPrev.onclick=()=>{ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()-1,1); renderMonth(); };
+      btnNext.onclick=()=>{ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,1); renderMonth(); };
+      renderMonth();
+    }
+
+    // Boot
+    (async function(){
+      const d = await getData();
+      applyData(d);
+    })();
+  </script>
+</body>
+</html>
