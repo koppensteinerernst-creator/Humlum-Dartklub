@@ -13,11 +13,32 @@
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
+  <!-- ADMIN LOGIN MODAL -->
+<div id="adminGate" class="fixed inset-0 z-[9999] hidden">
+  <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"></div>
+  <div class="relative max-w-md mx-auto mt-24 bg-white rounded-2xl shadow-xl p-6 grid gap-4 border">
+    <h2 class="text-xl font-bold">Admin adgang</h2>
+    <p class="text-sm text-slate-600">Indtast adgangskode for at åbne adminpanelet.</p>
+    <input id="adminPinInput" type="password" placeholder="Adgangskode" class="rounded-xl border px-3 py-2">
+    <div class="flex gap-2">
+      <button id="adminPinBtn" class="rounded-xl px-4 py-2 bg-emerald-600 text-white">Log ind</button>
+      <button id="adminPinCancel" class="rounded-xl px-4 py-2 border">Annullér</button>
+    </div>
+    <div id="adminPinMsg" class="text-sm text-rose-600"></div>
+    <p class="text-xs text-slate-500">Tip: Koden ændres i <code>data/config.json</code> → <code>adminPin</code>. Standard: <code>humlum2025</code>.</p>
+  </div>
+</div>
+
+<!-- ADMIN MINI BAR -->
+<div id="adminMiniBar" class="fixed top-3 right-3 z-[9998] hidden">
+  <button id="adminLogoutBtn" class="rounded-xl px-3 py-1 bg-slate-800 text-white text-xs shadow">Log ud</button>
+</div>
+
   <header class="bg-white border-b sticky top-0 z-10">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="font-extrabold text-lg">Humlum Admin</div>
       <div class="flex gap-2">
-        <a class="pill" href="humlum-restart-index.html" target="_blank">Forside</a>
+        <a class="pill" href="index.html" target="_blank">Forside</a>
         <a class="pill" href="member.html" target="_blank">Bliv medlem</a>
         <a class="pill" href="sponsor.html" target="_blank">Sponsorer</a>
         <a class="pill" href="about.html" target="_blank">Om os</a>
@@ -247,5 +268,64 @@
 
     load();
   </script>
+  <script>
+(function(){
+ const KEY = 'hdk_admin_ok_v1';
+
+function showGate(){
+  document.getElementById('adminGate').classList.remove('hidden');
+  document.body.classList.add('overflow-hidden'); // lås scroll
+}
+function hideGate(){
+  document.getElementById('adminGate').classList.add('hidden');
+  document.body.classList.remove('overflow-hidden'); // frigør scroll
+}
+function showBar(){
+  document.getElementById('adminMiniBar').classList.remove('hidden');
+}
+
+  async function getPin(){
+    try{
+      const res = await fetch('data/config.json', {cache:'no-store'});
+      const cfg = await res.json();
+      return (cfg && cfg.adminPin) ? String(cfg.adminPin) : 'humlum2025';
+    }catch(e){
+      return 'humlum2025';
+    }
+  }
+
+  async function check(){
+    if(localStorage.getItem(KEY) === 'true'){ showBar(); return; }
+    const pin = await getPin();
+    showGate();
+    const btn = document.getElementById('adminPinBtn');
+    const cancel = document.getElementById('adminPinCancel');
+    const input = document.getElementById('adminPinInput');
+    const msg = document.getElementById('adminPinMsg');
+    function tryLogin(){
+      const v = (input.value || '').trim();
+      if(!v){ msg.textContent = 'Skriv adgangskoden.'; return; }
+      if(v === pin){
+        localStorage.setItem(KEY, 'true');
+        hideGate(); showBar();
+      }else{
+        msg.textContent = 'Forkert kode. Prøv igen.'; input.focus();
+      }
+    }
+    btn.onclick = tryLogin;
+    input.onkeydown = (e)=>{ if(e.key === 'Enter'){ tryLogin(); } };
+    cancel.onclick = ()=>{ window.location.href = './index.html'; };
+  }
+
+  function logout(){ localStorage.removeItem(KEY); location.reload(); }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    check();
+    const lo = document.getElementById('adminLogoutBtn');
+    if(lo) lo.onclick = logout;
+  });
+})();
+</script>
+
 </body>
 </html>

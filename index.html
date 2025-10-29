@@ -30,13 +30,13 @@
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3">
         <!-- Skift evt. logo-sti -->
-        <img src="images/logo DK.hvid.png" alt="Humlum Dartklub logo" class="h-14 w-14 md:h-16 md:w-16 object-contain" />
+        <img src="images/logo-DK-hvid.png" alt="Humlum Dartklub logo" class="h-14 w-14 md:h-16 md:w-16 object-contain" />
         <div>
           <div class="text-2xl md:text-3xl font-extrabold leading-tight text-slate-900">Humlum Dartklub</div>
           <div class="text-xs text-slate-500 -mt-0.5">Fællesskab & Præcision</div>
         </div>
       </a>
-      <nav class="hidden md:flex items-center gap-7 text-base font-medium">
+      <nav class="hidden md:flex items-center justify-between gap-7 text-base font-medium w-full">
         <a href="#news" class="hover:text-cyan-700">Nyheder</a>
         <a href="#training" class="hover:text-cyan-700">Træningsplan</a>
         <a href="#events" class="hover:text-cyan-700">Aktiviteter</a>
@@ -46,8 +46,27 @@
         <a href="#stats" class="hover:text-cyan-700">Statistik</a>
         <a href="#sponsors" class="hover:text-cyan-700">Sponsorer</a>
         <a href="#contact" class="hover:text-cyan-700">Kontakt</a>
-        <a href="#join" class="ml-2 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white shadow hover:opacity-90">Bliv medlem</a>
+       <a href="member.html" target="_blank" rel="noopener" class="ml-2 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white shadow hover:opacity-90">Bliv medlem</a>
+        <span class="hidden md:inline-block ml-6 pl-6 border-l border-slate-200"></span>
+<a href="admin.html"
+   class="ml-auto inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm font-semibold shadow-sm transition">
+  <!-- lock icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M7 11V8a5 5 0 0 1 10 0v3"></path>
+    <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
+  </svg>
+  Admin
+</a>
+
       </nav>
+      <!-- Mobile admin button (vises kun < md) -->
+<div class="md:hidden mt-3">
+  <a href="admin.html"
+     class="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-100 text-slate-700 border border-slate-300 text-sm font-medium">
+    Admin
+  </a>
+</div>
+
     </div>
     <div class="border-t bg-white/90">
       <div class="max-w-7xl mx-auto px-4 overflow-hidden relative grid items-center">
@@ -85,8 +104,11 @@
 
         <!-- CTA buttons -->
         <div class="mt-6 flex flex-wrap items-center gap-3">
-          <a href="#join" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem</a>
-          <a href="#sponsors" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Se sponsorpakker</a>
+         <a href="member.html" target="_blank" rel="noopener" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem</a>
+         <a href="sponsor.html" target="_blank" rel="noopener"
+   class="rounded-2xl px-5 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold shadow">
+  Bliv sponsor
+</a>
         </div>
       </div>
 
@@ -273,19 +295,28 @@
   <!-- ===== KONTAKT ===== -->
   <section id="contact" class="py-16 bg-gradient-to-t from-cyan-50/60 to-emerald-50/60 border-t">
     <div class="max-w-3xl mx-auto px-4 text-center">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Kontakt & tilmelding</h2>
-      <p id="bind-contact" class="mt-2 text-slate-600 whitespace-pre-line">
-Humlum Dartklub
-Stadionvej 1, 7600 Struer
-Mail: humlum.dartklub@gmail.com
-Facebook: fb.com/HumlumDartklub
-Instagram: @humlumdartklub
-      </p>
-      <div class="mt-4 flex gap-3 justify-center">
-        <a id="join" href="mailto:humlum.dartklub@gmail.com" class="rounded-2xl px-6 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem / skriv til os</a>
-        <a href="#lanes" class="rounded-2xl px-6 py-3 border font-semibold hover:bg-slate-50">Book en bane</a>
-      </div>
+     <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Find os / Kontakt os</h2>
+<div class="mt-2 grid md:grid-cols-2 gap-6 text-left">
+  <!-- Venstre: kontakt -->
+  <div class="rounded-2xl border bg-white p-5 shadow-sm">
+    <ul class="grid gap-3 text-slate-700 text-sm">
+      <li class="flex items-start gap-2"><span>📍</span><span>Stadionvej 1, 7600 Struer</span></li>
+      <li class="flex items-start gap-2"><span>📧</span><a href="mailto:humlum.dartklub@gmail.com" class="underline hover:no-underline">humlum.dartklub@gmail.com</a></li>
+      <li class="flex items-start gap-2"><span>📘</span><a href="https://facebook.com/HumlumDartklub" target="_blank" rel="noopener" class="underline hover:no-underline">facebook.com/HumlumDartklub</a></li>
+      <li class="flex items-start gap-2"><span>📸</span><a href="https://instagram.com/humlumdartklub" target="_blank" rel="noopener" class="underline hover:no-underline">@humlumdartklub</a></li>
+    </ul>
+    <div class="mt-4">
+      <a href="https://maps.google.com/?q=Stadionvej+1,+7600+Struer" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 text-emerald-700 font-semibold">Åbn i Google Maps →</a>
     </div>
+  </div>
+  <!-- Højre: åbningstider (admin-styret) -->
+  <div class="rounded-2xl border bg-white p-5 shadow-sm">
+    <div class="text-base font-semibold text-slate-900">Åbningstider</div>
+    <pre id="bind-opening" class="mt-2 whitespace-pre-wrap text-sm text-slate-700">Opdateres via admin…</pre>
+  </div>
+</div>
+         </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
@@ -338,6 +369,7 @@ Instagram: @humlumdartklub
         "https://images.unsplash.com/photo-1572982774816-2de5c1e6d18a?q=80&w=800&auto=format&fit=crop"
       ],
       nextTraining: "Onsdag kl. 19:00",
+      openingHours: "Ons 19:00 – Træning\\nTor 18:00 – Intro for begyndere",
       ranking: "",
       one80: "",
       highFinish: "",
@@ -376,6 +408,10 @@ Instagram: @humlumdartklub
       // Ticker
       document.getElementById("bind-news-ticker").textContent =
         (data.newsList || "").split("\\n").filter(Boolean).join(" · ");
+      // Åbningstider (admin)
+const openBox = document.getElementById("bind-opening");
+if (openBox) openBox.textContent = (data.openingHours || (Fallback.openingHours || ""));
+
 
       // Træningskort
       const trainings = [
