@@ -270,10 +270,19 @@
   </script>
   <script>
 (function(){
-  const KEY = 'hdk_admin_ok_v1';
-  function showGate(){ document.getElementById('adminGate').classList.remove('hidden'); }
-  function hideGate(){ document.getElementById('adminGate').classList.add('hidden'); }
-  function showBar(){ document.getElementById('adminMiniBar').classList.remove('hidden'); }
+ const KEY = 'hdk_admin_ok_v1';
+
+function showGate(){
+  document.getElementById('adminGate').classList.remove('hidden');
+  document.body.classList.add('overflow-hidden'); // lås scroll
+}
+function hideGate(){
+  document.getElementById('adminGate').classList.add('hidden');
+  document.body.classList.remove('overflow-hidden'); // frigør scroll
+}
+function showBar(){
+  document.getElementById('adminMiniBar').classList.remove('hidden');
+}
 
   async function getPin(){
     try{
