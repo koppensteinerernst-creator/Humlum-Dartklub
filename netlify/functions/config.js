@@ -1,8 +1,8 @@
 // netlify/functions/config.js
-// CJS function + ESM dynamic import (fixer ERR_REQUIRE_ESM)
+// CJS handler + ESM dynamic import (fixer ERR_REQUIRE_ESM)
 
 exports.handler = async (event) => {
-  // ESM import i en CJS function
+  // <- ESM i CJS: brug dynamic import i stedet for require()
   const { getStore } = await import('@netlify/blobs');
 
   const STORE = getStore({ name: 'humlum-config' });
@@ -12,7 +12,7 @@ exports.handler = async (event) => {
   const method = event.httpMethod;
 
   if (method === 'GET') {
-    // 1) Prøv seneste gemte config (Netlify Blobs)
+    // 1) Prøv seneste gemte konfiguration fra Netlify Blobs
     try {
       const latest = await STORE.get(KEY, { type: 'json' });
       if (latest) return json(200, latest);
@@ -39,7 +39,7 @@ exports.handler = async (event) => {
     try { body = JSON.parse(event.body || '{}'); }
     catch { return json(400, { error: 'Invalid JSON' }); }
 
-    // meget let skema-check (tilpas feltnavne til dine inputs)
+    // Minimum skema-tjek — tilpas hvis du ændrer feltnavne
     const must = ['heroTitle','heroSubtitle','heroImage','heroRotator','newsList','events','contact'];
     if (!must.every(k => Object.prototype.hasOwnProperty.call(body, k))) {
       return json(422, { error: 'Config schema validation failed' });
