@@ -156,7 +156,7 @@
     let state = {};
 
     async function load(){
-      const r = await fetch('data/config.json?ts='+(Date.now()));
+      const r = await fetch('/.netlify/functions/config?ts=' + Date.now(), { cache: 'no-store' });
       state = await r.json();
       bind();
       document.getElementById('status').textContent = "Indlæst.";
@@ -290,7 +290,7 @@ function showBar(){
 
   async function getPin(){
     try{
-      const res = await fetch('data/config.json', {cache:'no-store'});
+      const res = await fetch('/.netlify/functions/config', { cache: 'no-store' });
       const cfg = await res.json();
       return (cfg && cfg.adminPin) ? String(cfg.adminPin) : 'humlum2025';
     }catch(e){
@@ -330,8 +330,7 @@ function showBar(){
   });
 })();
 </script>
-})();  
-</script>
+
 
 <!-- GEM-KNAP SCRIPT (rigtig save via Netlify Function) -->
 <script>
